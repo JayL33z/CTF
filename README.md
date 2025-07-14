@@ -21,7 +21,7 @@ Write-ups on CTF-like machines pwned on HackTheBox (HTB) and TryHackMe (THM) pla
 17. THM: alfred
 18. HTB: bastion
 19. HTB: querier
-20. THM: simpleCTF
+20. <a href="https://github.com/JayL33z/CTF/tree/main/THM:%20Simple%20CTF">THM: simple CTF</a>
 21. THM: cmess
 22. THM: ultratech
 23. THM: lazyadmin
