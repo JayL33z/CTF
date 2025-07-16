@@ -29,7 +29,7 @@ Write-ups on CTF-like machines pwned on HackTheBox (HTB) and TryHackMe (THM) pla
 25. THM: tomghost
 26. THM: convertmyvideo
 27. THM: brainpan1
-28. HTB: legacy
+28. <a href="https://github.com/JayL33z/CTF/tree/main/HTB:%20legacy">HTB: legacy</a>
 29. HTB: lame
 30. HTB: blue
 31. HTB: devel
