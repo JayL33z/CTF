@@ -14,7 +14,7 @@ Write-ups on CTF-like machines pwned on HackTheBox (HTB) and TryHackMe (THM) pla
 10. HTB: secnotes
 11. HTB: jeeves
 12. HTB: access
-13. THM: steel mountain
+13. <a href="https://github.com/JayL33z/CTF/blob/main/THM:%20Steel%20Mountain/README.md">THM: steel mountain</a>
 14. THM: blaster
 15. HTB: arctic
 16. HTB: bastard
