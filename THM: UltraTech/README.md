@@ -1,4 +1,4 @@
-# TryHackMe: UltraTecch
+<img width="253" height="19" alt="image" src="https://github.com/user-attachments/assets/32e0be08-14e3-4fe8-bf7d-c682a330139b" /># TryHackMe: UltraTecch
 https://tryhackme.com/Room/ultratech1
 
 ## 1. Enumeration
@@ -53,23 +53,32 @@ In this case, the attacker view the page source to find vulnerabilities. <br>
 From above screenshot, it is observed that the login page uses embbeded Javascript code. It calls *js/api.js* which can be probed further as earlier we discovered it has an API server running.
 At this stage, one can deduce that the web application running on port 31331 calls the API server running on port 8081 to perform certain functions.
 
-<img width="927" height="640" alt="image" src="https://github.com/user-attachments/assets/c94e7744-7807-4917-8d5d-fef9578fae65" />
+<img width="927" height="640" alt="image" src="https://github.com/user-attachments/assets/c94e7744-7807-4917-8d5d-fef9578fae65" /> <br>
+From the above screenshot, it is observed that the API call for the command *ping* is hardcoded into the Javascript code.
 
+<img width="965" height="232" alt="image" src="https://github.com/user-attachments/assets/b9ae8d7a-ef37-473a-be20-a2c1b81e58b5" /> <br>
+From the above screenshot, the API call for the ping command is tested. It returns the output of the ping command which appears to be from the output of running the command on a Linux CLI.
 
-<img width="965" height="232" alt="image" src="https://github.com/user-attachments/assets/b9ae8d7a-ef37-473a-be20-a2c1b81e58b5" />
+<img width="931" height="137" alt="image" src="https://github.com/user-attachments/assets/0f723d22-e03a-4f4b-9899-93916ef347cd" /> <br>
+As per above screenshot, one can use the backticks for command substitution in Linux so that output of the command inside the backticks is executed first and then used as an argument for the outer command.
+In this case, the inner command *whoami* returns the *www* username. This appears to have a local file inclusion (LFI) vulnerability.
 
-<img width="931" height="137" alt="image" src="https://github.com/user-attachments/assets/0f723d22-e03a-4f4b-9899-93916ef347cd" />
+<img width="957" height="178" alt="image" src="https://github.com/user-attachments/assets/4f0d4ab8-579a-4e78-994a-aabec0164475" /> <br>
+From the above screenshot, the API call inner command *ls* is crafted to list files in directory. From the returned output, there is a file named *utech.db.sqlite*.
 
-<img width="957" height="178" alt="image" src="https://github.com/user-attachments/assets/4f0d4ab8-579a-4e78-994a-aabec0164475" />
+<img width="1171" height="133" alt="image" src="https://github.com/user-attachments/assets/729f2c16-234d-4955-a88b-f5fbb9adba2c" /><br>
+From the above screenshot, the contents of the *utech.db.sqlite* file is examined to expose what looked like: two usernames r00t and admin, along with two MD5-hashed strings respectively.
 
-<img width="1171" height="133" alt="image" src="https://github.com/user-attachments/assets/729f2c16-234d-4955-a88b-f5fbb9adba2c" />
-
+From the below two screenshots, the site https://crackstation.net is used to cracked both hashes, which appears to be passwords <br>
 <img width="1443" height="650" alt="image" src="https://github.com/user-attachments/assets/1e473a75-0255-4a31-bc9f-3b2124d0cb97" />
+<img width="1323" height="650" alt="image" src="https://github.com/user-attachments/assets/a817b99c-a489-41a3-8b67-2d6adcc435db" /> <br>
+Therefore, it is likely that credentials are found for two users:
+- r00t:n100906
+- admin:mrsheafy
 
-<img width="1323" height="650" alt="image" src="https://github.com/user-attachments/assets/a817b99c-a489-41a3-8b67-2d6adcc435db" />
-
-<img width="764" height="590" alt="image" src="https://github.com/user-attachments/assets/2a738601-5c97-4ab1-a770-fcbd47456296" />
-
+Since there is a SSH service running on the target server, the credentials username r00t and password n100906 are tested.
+<img width="764" height="590" alt="image" src="https://github.com/user-attachments/assets/2a738601-5c97-4ab1-a770-fcbd47456296" /> <br>
+As per above screenshot, SSH login was successful for username r00t and password n100906.
 
 
 ## 3. Post-Exploitation
