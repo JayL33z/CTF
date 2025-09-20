@@ -48,7 +48,7 @@ From above screenshot, it appears that  http://X.X.X.X:31331/partners.html is a 
 NOTE: An attacker may also probe the login page for web vulnerabilites. <br>
 
 In this case, the attacker view the page source to find vulnerabilities. <br>
-<img width="1337" height="696" alt="image" src="https://github.com/user-attachments/assets/4a5ba1bd-19d8-44ee-9bb2-b6c116729033" />
+<img width="1337" height="696" alt="image" src="https://github.com/user-attachments/assets/4a5ba1bd-19d8-44ee-9bb2-b6c116729033" /><br>
 
 From above screenshot, it is observed that the login page uses embbeded Javascript code. It calls *js/api.js* which can be probed further as earlier we discovered it has an API server running.
 At this stage, one can deduce that the web application running on port 31331 calls the API server running on port 8081 to perform certain functions.
@@ -70,7 +70,7 @@ From the above screenshot, the API call inner command *ls* is crafted to list fi
 From the above screenshot, the contents of the *utech.db.sqlite* file is examined to expose what looked like: two usernames r00t and admin, along with two MD5-hashed strings respectively.
 
 From the below two screenshots, the site https://crackstation.net is used to cracked both hashes, which appears to be passwords <br>
-<img width="1443" height="650" alt="image" src="https://github.com/user-attachments/assets/1e473a75-0255-4a31-bc9f-3b2124d0cb97" />
+<img width="1443" height="650" alt="image" src="https://github.com/user-attachments/assets/1e473a75-0255-4a31-bc9f-3b2124d0cb97" /><br>
 <img width="1323" height="650" alt="image" src="https://github.com/user-attachments/assets/a817b99c-a489-41a3-8b67-2d6adcc435db" /> <br>
 Therefore, it is likely that credentials are found for two users:
 - r00t:n100906
@@ -83,16 +83,24 @@ As per above screenshot, SSH login was successful for username r00t and password
 
 ## 3. Post-Exploitation
 ### 3.1. post-exploitation enumeration
-<img width="681" height="218" alt="image" src="https://github.com/user-attachments/assets/9fadcccf-8a3d-4874-b634-4e7a190f3dd4" />
 
-<img width="796" height="430" alt="image" src="https://github.com/user-attachments/assets/8572be93-650e-44ac-bca5-28de6841852d" />
+The LinPEAS (Linux Privilege Escalation Awesome Script) from https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS can be used to automate the enumeration for vectors to escalate privileges.
+As per below screenshot, it can be downloded to target machine as *linpeas.sh* and set permissions to execute. <br>
+<img width="681" height="218" alt="image" src="https://github.com/user-attachments/assets/9fadcccf-8a3d-4874-b634-4e7a190f3dd4" /> <br>
 
-<img width="912" height="378" alt="image" src="https://github.com/user-attachments/assets/34de228e-617c-4281-be55-01239d2176e8" />
+Then run command ```./linpeas.sh``` to run the script. <br>
 
+<img width="796" height="430" alt="image" src="https://github.com/user-attachments/assets/8572be93-650e-44ac-bca5-28de6841852d" /><br>
+From the above screenshot, a finding that stands out as a high probability attack vector is that the user r00t is part of the docker group.
 
+<img width="912" height="378" alt="image" src="https://github.com/user-attachments/assets/34de228e-617c-4281-be55-01239d2176e8" /> <br>
+From the above screenshot, it is verified that the Docker application is present on the target machine.
 
 ### 3.2. privilege escalation using Docker
 
-<img width="1312" height="499" alt="image" src="https://github.com/user-attachments/assets/97452b78-8650-43fb-a194-b1789b449b4e" />
+From below screenshot, an online search on https://gtfobins.github.io/gtfobins/docker/ shows a probable attack method using docker.
+<img width="1312" height="499" alt="image" src="https://github.com/user-attachments/assets/97452b78-8650-43fb-a194-b1789b449b4e" /> <br>
+NOTE: *alphine* is not used here, hence the method needs to be modified to *bash*
 
-<img width="673" height="115" alt="image" src="https://github.com/user-attachments/assets/e0e36636-5f47-4bd3-b4df-391fb9f43c03" />
+<img width="673" height="115" alt="image" src="https://github.com/user-attachments/assets/e0e36636-5f47-4bd3-b4df-391fb9f43c03" /> <br>
+As per the above screensht, running the command: ```docker run -v /:/mnt --rm -it bash chroot /mnt sh``` allows to get to the root shell.
