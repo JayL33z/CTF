@@ -1,4 +1,4 @@
-<img width="253" height="19" alt="image" src="https://github.com/user-attachments/assets/32e0be08-14e3-4fe8-bf7d-c682a330139b" /># TryHackMe: UltraTecch
+# TryHackMe: UltraTech
 https://tryhackme.com/Room/ultratech1
 
 ## 1. Enumeration
