@@ -16,7 +16,7 @@ It is discovered that port 80 is a Microsoft IIS web server.
 Running ```dirbuster&```, the below fields are configured with a directory list:
 <img width="763" height="537" alt="image" src="https://github.com/user-attachments/assets/43669004-33c1-4fbb-b305-c8fb2b1843f8" />
 
-The subdirectory /retro is found.
+The subdirectory /retro is found. <br>
 <img width="761" height="536" alt="image" src="https://github.com/user-attachments/assets/a52e8565-a512-47ac-aafc-8001b971fa06" />
 
 <img width="1254" height="787" alt="image" src="https://github.com/user-attachments/assets/7ecd9042-bcdf-4283-ab96-3dffe5a7024a" />
