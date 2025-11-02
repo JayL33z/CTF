@@ -1,5 +1,5 @@
 # CTF
-Write-ups on CTF-like machines pwned on HackTheBox (HTB) and TryHackMe (THM) platforms
+Write-ups on Red Team CTF-like machines pwned on HackTheBox (HTB) and TryHackMe (THM) platforms
 
 ## Contents
 - <a href="https://github.com/JayL33z/CTF/blob/main/THM:%20Steel%20Mountain/README.md">THM: steel mountain</a>
