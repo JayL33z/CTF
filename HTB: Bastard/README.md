@@ -48,7 +48,7 @@ Thirdly, verify that the payload *shell.exe* is on the target machine.
 <img width="766" height="821" alt="image" src="https://github.com/user-attachments/assets/4a31bae6-ae11-44ee-ad32-89bacc82b96e" />
 
 
-Then on attacker machine, start a listener on port 5555:
+Then on attacker machine, start a listener on port 5555: <br/>
 <img width="405" height="154" alt="image" src="https://github.com/user-attachments/assets/1d8258d3-f8eb-4f0c-a984-b3fb4c261480" />
 
 
