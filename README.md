@@ -8,4 +8,5 @@ Write-ups on Red Team CTF-like machines pwned on HackTheBox (HTB) and TryHackMe 
 - <a href="https://github.com/JayL33z/Red-Team-CTF/tree/main/THM%3A%20CMesS">THM: cmess</a>
 - <a href="https://github.com/JayL33z/Red-Team-CTF/blob/main/THM:%20UltraTech/README.md">THM: ultratech</a>
 - <a href="https://github.com/JayL33z/Red-Team-CTF/tree/main/HTB:%20legacy">HTB: legacy</a>
+- <a href="https://github.com/JayL33z/Red-Team-CTF/tree/main/HTB:%20artic">HTB: artic</a>
 
