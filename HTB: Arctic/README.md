@@ -33,7 +33,7 @@ Online researching *Adobe ColdFusion* :
 <br/>
 (CVE-2009-2265)
 - Found possible vulnerability CVE-2009-2265 (https://nvd.nist.gov/vuln/detail/CVE-2009-2265) CVE-2009-2265 is a vulnerability related to multiple directory traversal flaws in FCKeditor before version 2.6.4.1, which is enabled by default in Adobe ColdFusion 8. 
-- Found a publicly available exploit (https://www.exploit-db.com/exploits/50057)
+- Found a publicly available exploit (https://www.exploit-db.com/exploits/50057) for an RCE.
 
 ### 2.2. exploiting vulnerability (CVE-2010-2861)
 Instead of running the full exploit EDB-ID 14641 from the python script, the exploit can be performed simply by inputting the following URL into the browser: http://server/CFIDE/administrator/enter.cfm?locale=../../../../../../../../../../ColdFusion8/lib/password.properties%00en
@@ -56,4 +56,16 @@ However, although the found credentials allows to log into the admin panel and c
 
 
 ### 2.4. exploiting vulnerability (CVE-2010-2861)
+The exploit script (50057.py) can be downloaded from https://www.exploit-db.com/exploits/50057.
+
+Then setting the permissions to execute the script using ```chmod +x 50057.py``` and edit the script's four variables lhost, lport, rhost and rport to the attacker's IP address, attacker's listening port, target's IP address and target's HTTP port respectively.
+In this case, the ports set are the default values. Then execute the script using ```python 50057.py```
+
+<img width="906" height="754" alt="image" src="https://github.com/user-attachments/assets/e91d2269-f87e-449f-96c9-ef6bcd41ab77" />
+<img width="970" height="534" alt="image" src="https://github.com/user-attachments/assets/06858308-beb7-4611-b8b2-0f865d3b36e3" />
+
+As per above screenshot, this opens a reverseshell allowing to gain initial foothold on the server itself.
+
+
+
 
