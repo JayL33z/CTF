@@ -20,7 +20,7 @@ Manually enumerating the http port on 8500 on http://X.X.X.X:8500, it leads to d
 The admin login panel can be found at *http://X.X.X.X:8500/CFIDE/administrator*.
 The username "admin" is auto-filled by default.
 
-## 2. Exploitation 1st Attempt (CVE-2010-2861)
+## 2. Exploitation
 
 ### 2.1. researching vulnerability
 Online researching *Adobe ColdFusion* :
